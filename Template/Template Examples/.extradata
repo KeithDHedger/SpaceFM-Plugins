@@ -1,0 +1,5 @@
+@EMAIL@="kdhedger68713@gmail.com"
+@MESSAGE@="This is a test"
+@DATE@=$(date)
+@USER@=$(whoami)
+@FILENAME@=${dialog_input1}

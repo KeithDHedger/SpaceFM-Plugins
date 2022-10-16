@@ -1,0 +1,31 @@
+README
+------
+
+Template Plugin
+Version 20
+Oct 2022
+
+https://github.com/KeithDHedger/SpaceFM-Pluginshttp://keithhedger.hostingsiteforfree.com/zips/Template.spacefm-plugin.tar.gz
+email bugs suggestions etc keithdhedger@gmail.com
+
+Requirements:
+spacefm >=1.0.6
+
+Description: 
+A simple plugin that will create a template in the current folder from a list of template files stored in $HOME/Templates.
+ 
+Instructions For Use: 
+Simply click on 'Templates' from the plugin menu, select a template file and click 'OK', a file will then be created in the current directory and named for the name of the template file with a numerical suffix if needed, suffix's from the template are not shown but will be added.
+
+Creating a Template:
+Create a file in the folder $HOME/Templates (create this folder if you need to), set any permissions, data etc that you may need in the file and save it.
+You may also create a file in the $HOME/Templates folder called ".extradata", ie this:
+@EMAIL@="kdhedger@yahoo.co.uk"
+@MESSAGE@="This is a test"
+@DATE@=$(date)
+@USER@=$(whoami)
+
+Then any instances of "@EMAIL@" (for instance) will be converted to "kdhedger@yahoo.co.uk" (without the quotes), any instance of "@USER@" would be replaced with the results of the "whoami" command, the .extradata file can hold as many placeholders as you wish or none at all, if the file does not exist no replacements will happen.
+
+A folder of example templates and an example .extradata file is included:
+

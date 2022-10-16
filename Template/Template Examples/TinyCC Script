@@ -1,0 +1,11 @@
+#!/usr/bin/tcc -run
+
+//©@USER@ @DATE@ @EMAIL@
+
+#include <stdio.h>
+
+int main() 
+{
+	printf("Hello World!\n");
+	return 0;
+}

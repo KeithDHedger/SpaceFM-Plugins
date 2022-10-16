@@ -1,0 +1,44 @@
+#!/bin/bash -e
+
+#©@USER@ @DATE@ @EMAIL@
+#
+#Based on scripts and hints by
+#stoat http://www.linuxquestions.org/questions/user/stoat-343150/
+#ReaperX7 http://www.linuxquestions.org/questions/user/reaperx7-603839/
+#Here: http://www.linuxquestions.org/questions/linux-from-scratch-13/lfs-with-runit-without-sysv-4175503653/
+#
+
+if [ "X${1}" = "Xuninstall" ];then
+	rm -rf /etc/sv/@FILENAME@ /etc/runit/runsvdir/default/@FILENAME@
+	exit 0
+fi
+
+mkdir -vp /etc/sv/@FILENAME@/log
+
+cat > /etc/sv/@FILENAME@/run << "EOF"
+#!/bin/sh
+#Begin @FILENAME@ service run file
+exec 2>&1
+
+#End of @FILENAME@ service run file
+EOF
+
+cat > /etc/sv/@FILENAME@/finish << "EOF"
+#!/bin/sh
+#Begin @FILENAME@ service finish file
+
+#End @FILENAME@ service finish file
+EOF
+
+cat > /etc/sv/@FILENAME@/log/run << "EOF"
+#!/bin/sh
+#Begin @FILENAME@ log service file
+exec /usr/sbin/svlogd -tt /var/log/@FILENAME@
+#End of @FILENAME@ log service run file
+EOF
+
+chmod +x /etc/sv/@FILENAME@/{run,finish,log/run}
+mkdir -pv /var/log/@FILENAME@
+
+cd /etc/runit/runsvdir/default     
+ln -sv /etc/sv/@FILENAME@ @FILENAME@

@@ -1,0 +1,48 @@
+#!/bin/bash -e
+
+#
+#©K. D. Hedger. Sun 16 Oct 14:17:01 BST 2022 keithdhedger@gmail.com
+#
+#This file (extscript) is part of Template.
+#
+#Template is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#Template is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with Template.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+FILE="$1"
+THISPROC="$3"
+SUFFIX="${2##?*.}"
+if [ "$SUFFIX" = "$FILE" ];then
+	SUFFIX=""
+else
+	SUFFIX=".$SUFFIX"
+fi
+
+echo "$2" > /tmp/selection$THISPROC
+
+if [ ! -e "${FILE}${SUFFIX}" ];then
+	echo "${FILE}" > /tmp/filename$THISPROC
+else
+	FLAG=true
+	CNT=1
+	while [ $FLAG = "true" ]
+		do
+			if [ -e "${FILE}-${CNT}${SUFFIX}" ];then
+				((CNT++))
+			else
+				echo "${FILE}-${CNT}" > /tmp/filename$THISPROC
+				FLAG="false"
+			fi
+		done
+fi
+
