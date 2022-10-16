@@ -1,0 +1,97 @@
+#!/bin/bash
+
+#
+#©K. D. Hedger. Sun 16 Oct 14:02:04 BST 2022 keithdhedger@gmail.com
+#
+#This file (populatedrop) is part of MountShare.
+#
+#MountShare is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#MountShare is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with MountShare.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+if [ -e ./LOCKFILE ];then
+	exit 0
+fi
+
+case $1 in
+
+	"server")
+		touch ./LOCKFILE
+			echo "Scanning..." > $IPADDRESS
+			smbtree -NS|grep '\\'|tr -d '\t\\'|awk '{print $1}' > ${SERVERS}
+			cat $SERVERS|head -n1 > $CURRENTSERVER
+			ip=$(cat "${SERVERS}"|head -n1)
+			nmblookup "$ip" 2>/dev/null|tail -n1|awk '{print $1}' > $IPADDRESS
+			: > "$DROPDISK"
+			while read
+				do
+					echo "$REPLY" >> "$DROPDISK"
+				done < <(smbclient --no-pass -g -L "$ip" 2>/dev/null|grep Disk|awk -F "|" '{print $2}')
+			cat $DROPDISK|head -n1 > $SELECTEDDISK
+		rm ./LOCKFILE
+		;;
+
+	"disks")
+		touch ./LOCKFILE
+		echo "$2" > $IPADDRESS
+		: > "$DROPDISK"
+		while read
+			do
+				echo "$REPLY" >> "$DROPDISK"
+			done < <(smbclient --no-pass -g -L "$2" 2>/dev/null|grep Disk|awk -F "|" '{print $2}')
+		rm ./LOCKFILE
+		;;
+
+	"lookup")
+		touch ./LOCKFILE
+			nmblookup "$2" 2>/dev/null|tail -n1|awk '{print $1}' > $IPADDRESS
+			: > "$DROPDISK"
+			while read
+				do
+					echo "$REPLY" >> "$DROPDISK"
+				done < <(smbclient --no-pass -g -L "$(cat $IPADDRESS)" 2>/dev/null|grep Disk|awk -F "|" '{print $2}')
+			cat $DROPDISK|head -n1 > $SELECTEDDISK
+		rm ./LOCKFILE
+		;;
+
+	"portnumssh")
+		touch ./LOCKFILE
+			cp "$PORTNUMSSH" "$PORTNUM"
+		rm ./LOCKFILE
+		;;
+		
+	"portnumftp")
+		touch ./LOCKFILE
+			cp "$PORTNUMFTP" "$PORTNUM"
+		rm ./LOCKFILE
+		;;
+		
+	"portnumsmb")
+		touch ./LOCKFILE
+			cp "$PORTNUMSMB" "$PORTNUM"
+		rm ./LOCKFILE
+		;;
+		
+	"portnumdav")
+		touch ./LOCKFILE
+			cp "$PORTNUMDAV" "$PORTNUM"
+		rm ./LOCKFILE
+		;;
+		
+	*)
+		exit 0
+		;;
+
+esac
+exit 0
+

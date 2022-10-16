@@ -1,0 +1,12 @@
+# SpaceFM Plugin File
+
+# THIS FILE IS NOT DESIGNED TO BE EDITED
+
+[Plugin]
+config_version-s=VERSION
+PLUGUUID-x=1
+PLUGUUID-y=
+PLUGUUID-label=NAME
+PLUGUUID-task=1
+PLUGUUID-keep=1
+

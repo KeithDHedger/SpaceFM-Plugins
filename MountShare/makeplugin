@@ -1,0 +1,37 @@
+#!/bin/bash -e
+
+#
+#©K. D. Hedger. Sun 16 Oct 14:01:24 BST 2022 keithdhedger@gmail.com
+#
+#This file (makeplugin) is part of SpaceFM-Plugins.
+#
+#SpaceFM-Plugins is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation, either version 3 of the License, or
+#(at your option) any later version.
+#
+#SpaceFM-Plugins is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#
+#You should have received a copy of the GNU General Public License
+#along with SpaceFM-Plugins.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+PLUGUUID="cstm_$(uuidgen |awk -F'-' '{print $1}')"
+VERSION=30
+NAME=MountShare
+
+rm -rf /tmp/$NAME/
+mkdir -vp /tmp/$NAME/$PLUGUUID
+
+sed "s/VERSION/$VERSION/g;s/NAME/$NAME/g;s/PLUGUUID/$PLUGUUID/g" plugin >/tmp/$NAME/plugin
+
+cp resources/* /tmp/$NAME/$PLUGUUID
+
+cd /tmp/$NAME
+tar -cvzf /tmp/$NAME.spacefm-plugin.tar.gz .
+
+#cp plugin /tmp/MountShare
+#cp README icon exec.sh populatedrop /tmp/MountShare/cstm_23558f1e
