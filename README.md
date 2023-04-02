@@ -11,3 +11,6 @@ spacefm->Plugins->Install->File ( /tmp/MountShare.spacefm-plugin.tar.gz )
 
 Enter root password whe prompted.
 Simple!
+
+BUGS etc.
+kdhedger68713@gmail.com
